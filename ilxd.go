@@ -19,9 +19,11 @@ import (
 )
 
 func main() {
-	if err := http.ListenAndServe("0.0.0.0:5555", nil); err != nil {
-		log.WithCaller(true).Fatal("Failed to start pprof server", log.Args("error", err))
-	}
+	go func() {
+		if err := http.ListenAndServe("0.0.0.0:5555", nil); err != nil {
+			log.Fatal("Failed to start pprof server", log.Args("error", err))
+		}
+	}()
 
 	// Up some limits.
 	if err := limits.SetLimits(); err != nil {
