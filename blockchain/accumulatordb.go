@@ -104,7 +104,8 @@ func (adb *AccumulatorDB) Init(tip *blockNode) error {
 				// has any attached children that we can use
 				// to load the blocks and remove the changes
 				// from the accumulator. Panic?
-				log.Fatal("AccumulatorDB last flush ahead of chain tip. Unable to repair. Use --reindexchainstate")
+				log.Fatal("AccumulatorDB last flush ahead of chain tip. Unable to repair. Use --reindexchainstate",
+					log.Args("lastFlushHeight", lastFlushHeight, "chain tip height", tip.Height()))
 			}
 		}
 	case scsFlushOngoing:
