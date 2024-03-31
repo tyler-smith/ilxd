@@ -16,7 +16,6 @@ import (
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/metadata"
 	"log"
-	"net/http"
 	_ "net/http/pprof"
 	"os"
 	"path/filepath"
@@ -37,8 +36,6 @@ type options struct {
 }
 
 func main() {
-	log.Fatal(http.ListenAndServe("0.0.0.0:5555", nil))
-
 	var configFile string
 	for i, arg := range os.Args {
 		if strings.HasPrefix(arg, "--configfile=") {
