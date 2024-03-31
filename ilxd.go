@@ -9,6 +9,8 @@ import (
 	"github.com/jessevdk/go-flags"
 	"github.com/project-illium/ilxd/limits"
 	"github.com/project-illium/ilxd/repo"
+	"net/http"
+	_ "net/http/pprof"
 	"os"
 	"os/signal"
 	"path"
@@ -17,6 +19,10 @@ import (
 )
 
 func main() {
+	if err := http.ListenAndServe("0.0.0.0:5555", nil); err != nil {
+		log.WithCaller(true).Fatal("Failed to start pprof server", log.Args("error", err))
+	}
+
 	// Up some limits.
 	if err := limits.SetLimits(); err != nil {
 		log.WithCaller(true).Fatal("Failed to set limits", log.Args("error", err))
