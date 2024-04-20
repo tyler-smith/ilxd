@@ -1115,20 +1115,29 @@ func (s *Server) handleCurrentStatusChange() {
 func (s *Server) Close() error {
 	<-s.ready
 	s.cancelFunc()
+	log.Trace("after cancel")
 	s.generator.Close()
+	log.Trace("after generator close")
 	s.syncManager.Close()
+	log.Trace("after syncManager close")
 	s.engine.Close()
+	log.Trace("after engine close")
 	s.mempool.Close()
+	log.Trace("after mempool close")
 	s.wallet.Close()
+	log.Trace("after wallet close")
 	if err := s.blockchain.Close(); err != nil {
 		return err
 	}
+	log.Trace("after blockchain close")
 	if err := s.network.Close(); err != nil {
 		return err
 	}
+	log.Trace("after network close")
 	if err := s.ds.Close(); err != nil {
 		return err
 	}
+	log.Trace("after ds close")
 	return nil
 }
 
