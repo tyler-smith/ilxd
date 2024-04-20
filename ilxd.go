@@ -88,6 +88,7 @@ func main() {
 	go func() {
 		timer := time.NewTicker(10 * time.Second)
 		for range timer.C {
+			log.Debug("Sending new block notifications")
 			server.ResendBlockNotifications()
 		}
 	}()
