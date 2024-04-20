@@ -7,6 +7,7 @@ package main
 import (
 	"context"
 	"errors"
+	"fmt"
 	"github.com/improbable-eng/grpc-web/go/grpcweb"
 	"github.com/multiformats/go-multiaddr"
 	manet "github.com/multiformats/go-multiaddr/net"
@@ -90,9 +91,8 @@ func (i *interceptor) interceptStreaming(srv interface{}, ss grpc.ServerStream, 
 			"addr":   p.Addr.String(),
 		}))
 	}
-	log.Debug("Streaming gRPC method invoked", log.ArgsFromMap(map[string]any{
-		"method": info.FullMethod,
-	}))
+
+	fmt.Println("Streaming gRPC method invoked")
 
 	err := validateAuthenticationToken(ss.Context(), i.authToken)
 	if err != nil {
