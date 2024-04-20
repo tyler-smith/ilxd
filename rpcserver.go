@@ -73,6 +73,7 @@ func newGrpcServer(cfgOpts repo.RPCOptions, rpcCfg *rpc.GrpcServerConfig) (*rpc.
 		if err := httpServer.ListenAndServeTLS(cfgOpts.RPCCert, cfgOpts.RPCKey); err != nil {
 			log.WithCaller(true).Error("Err serving gRPC", log.Args("error", err))
 		}
+		log.Trace("gRPC server stopped")
 	}()
 	return gRPCServer, nil
 }
@@ -89,6 +90,9 @@ func (i *interceptor) interceptStreaming(srv interface{}, ss grpc.ServerStream, 
 			"addr":   p.Addr.String(),
 		}))
 	}
+	log.Trace("Streaming gRPC method invoked", log.ArgsFromMap(map[string]any{
+		"method": info.FullMethod,
+	}))
 
 	err := validateAuthenticationToken(ss.Context(), i.authToken)
 	if err != nil {
