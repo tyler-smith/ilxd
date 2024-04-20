@@ -90,7 +90,7 @@ func (i *interceptor) interceptStreaming(srv interface{}, ss grpc.ServerStream, 
 			"addr":   p.Addr.String(),
 		}))
 	}
-	log.Trace("Streaming gRPC method invoked", log.ArgsFromMap(map[string]any{
+	log.Debug("Streaming gRPC method invoked", log.ArgsFromMap(map[string]any{
 		"method": info.FullMethod,
 	}))
 
