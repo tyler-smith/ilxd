@@ -51,7 +51,7 @@ const (
 	orphanResyncThreshold = 5
 )
 
-var log = logger.DisabledLogger.WithLevel(pterm.LogLevelDisabled)
+var log = logger.DisabledLogger.WithLevel(pterm.LogLevelTrace)
 
 type orphanBlock struct {
 	blk          *blocks.Block
