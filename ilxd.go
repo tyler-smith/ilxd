@@ -16,6 +16,7 @@ import (
 	"path"
 	"runtime/debug"
 	"syscall"
+	"time"
 )
 
 func main() {
@@ -83,6 +84,13 @@ func main() {
 	if err != nil {
 		log.WithCaller(true).Fatal("Failed to build server", log.Args("error", err))
 	}
+
+	go func() {
+		timer := time.NewTicker(10 * time.Second)
+		for range timer.C {
+			server.ResendBlockNotifications()
+		}
+	}()
 
 	// Listen for an exit signal and close.
 	c := make(chan os.Signal, 1)

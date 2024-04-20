@@ -1203,3 +1203,26 @@ func (s *Server) printListenAddrs() {
 	}
 	log.Info(fmt.Sprintf("gRPC server listening on %s", s.config.RPCOpts.GrpcListener))
 }
+
+func (s *Server) ResendBlockNotifications() {
+	<-s.ready
+	_, height, _ := s.blockchain.BestBlock()
+
+	for i := 0; i < int(height); i++ {
+		blk, err := s.blockchain.GetBlockByHeight(uint32(i))
+		if err != nil {
+			log.WithCaller(true).Error("Error getting block by height",
+				log.Args("error", err))
+			return
+		}
+		s.blockchain.SendNotification(blockchain.NTBlockConnected, blk)
+	}
+
+	//blk, err := s.blockchain.GetBlockByHeight(height)
+	//if err != nil {
+	//	log.WithCaller(true).Error("Error getting block by height",
+	//		log.Args("error", err))
+	//	return
+	//}
+	//s.processBlock(blk, s.network.Host().ID(), false)
+}

@@ -77,3 +77,13 @@ func (b *Blockchain) sendNotification(typ NotificationType, data interface{}) {
 	}
 	b.notificationsLock.RUnlock()
 }
+
+func (b *Blockchain) SendNotification(typ NotificationType, data interface{}) {
+	// Generate and send the notification.
+	n := Notification{Type: typ, Data: data}
+	b.notificationsLock.RLock()
+	for _, callback := range b.notifications {
+		go callback(&n)
+	}
+	b.notificationsLock.RUnlock()
+}
